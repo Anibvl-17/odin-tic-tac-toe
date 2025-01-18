@@ -1,3 +1,12 @@
+:root {
+  --background-color: #272727;
+  --on-background-color: #747474;
+  --color-red: #ff652f;
+  --color-yellow: #ffe400;
+  --color-green: #14a76c;
+  --color-blue: #4056a1;
+}
+
 html {
   height: 100%;
 }
@@ -5,10 +14,60 @@ html {
 body {
   margin: 0;
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
+  color: var(--on-background-color);
   height: 100%;
+  padding: 1rem;
+  display: grid;
+  place-content: center;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.board {
+  width: clamp(280px, 50vh,  40vw);
+  height: clamp(280px, 50vh, 40vw);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.cell {
+  border: 2px solid var(--on-background-color);
+  background-color: var(--background-color);
+  transition: ease 80ms;
+  font-size: 4rem;
+  display: grid;
+  place-content: center;
+}
+
+.cell:hover {
+  cursor: pointer;
+  filter: brightness(1.1);
+}
+
+.cell:active {
+  filter: brightness(0.9);
+}
+
+/* First column of cells */
+.cell:nth-child(3n+1) {
+  border-left: none;
+}
+
+/* First row of cells */
+.cell:nth-child(-n+3) {
+  border-top: none;
+}
+
+/* Last column of cells */
+.cell:nth-child(3n) {
+  border-right: none;
+}
+
+/* Last row of cells */
+.cell:nth-child(n+7) {
+  border-bottom: none;
 }
