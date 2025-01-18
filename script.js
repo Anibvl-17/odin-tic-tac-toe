@@ -76,8 +76,7 @@ function GameController() {
       token: 'O'
     }
   }
-  
-  let roundCounter = 1;
+
   let activePlayer = players.player1;
 
   const getActivePlayer = () => activePlayer;
@@ -87,7 +86,7 @@ function GameController() {
   }
 
   const printNewRound = () => {
-    console.log(`Round ${roundCounter}.Player ${activePlayer.name} turn.`);
+    console.log(`Player ${activePlayer.name} turn.`);
   }
 
   const playRound = (row, col) => {
@@ -95,7 +94,6 @@ function GameController() {
     console.log(`Player ${activePlayer.name} played at row ${row}, col ${col}`);
     
     if (gameboard.putToken(row, col, activePlayer.token)) {
-      roundCounter++;
       switchPlayer();
       printNewRound();
     } else {
