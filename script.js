@@ -30,29 +30,9 @@ function Gameboard() {
 
   };
 
-  // This will print the gameboard to the console
-  // NOTE: This method won't be necessary after the UI is implemented
-  const printBoard = () => {
-    for (let i = 0; i < rows; i++) {
-      let row = ''
-      for (let j = 0; j < columns; j++) {
-        const columnLine = j === columns - 1 ? '' : '|';
-        const cellValue = board[i][j].getValue();
-
-        if (cellValue == '') {
-          row += ' ' + columnLine;
-        } else {
-          row += board[i][j].getValue() + columnLine;
-        }
-      }
-      console.log(row);
-    }
-  };
-
   return {
     getBoard,
     putToken,
-    printBoard
   };
 }
 
@@ -86,27 +66,35 @@ function Cell() {
  */
 function GameController() {
   const gameboard = Gameboard();
-  const players = ['X', 'O'];
+  const players = {
+    player1: {
+      name: 'Player 1',
+      token: 'X'
+    },
+    player2: {
+      name: 'Player 2',
+      token: 'O'
+    }
+  }
   
   let roundCounter = 1;
-  let activePlayer = players[0];
+  let activePlayer = players.player1;
 
   const getActivePlayer = () => activePlayer;
 
   const switchPlayer = () => {
-    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    activePlayer = activePlayer === players.player1 ? players.player2 : players.player1;
   }
 
   const printNewRound = () => {
-    console.log(`Round ${roundCounter}.\nPlayer ${activePlayer} turn.`);
-    gameboard.printBoard();
+    console.log(`Round ${roundCounter}.Player ${activePlayer.name} turn.`);
   }
 
   const playRound = (row, col) => {
 
-    console.log(`Player ${activePlayer} played at row ${row}, col ${col}`);
+    console.log(`Player ${activePlayer.name} played at row ${row}, col ${col}`);
     
-    if (gameboard.putToken(row, col, activePlayer)) {
+    if (gameboard.putToken(row, col, activePlayer.token)) {
       roundCounter++;
       switchPlayer();
       printNewRound();
@@ -122,29 +110,43 @@ function GameController() {
 
   return {
     getActivePlayer,
-    playRound
+    playRound,
+    getBoard: gameboard.getBoard
   }
 
 }
 
-const Game = GameController();
+function DisplayController() {
+  const game = GameController();
+  const gameboard = game.getBoard();
+  
+  const boardDiv = document.querySelector('.board');
 
-Game.playRound(0, 0);
-Game.playRound(0, 1);
+  const cellClickHandler = (e) => {
+    const row = e.target.dataset.row;
+    const col = e.target.dataset.col;
 
-Game.playRound(0, 0);
+    game.playRound(row, col);
+    updateScreen();
+  }
 
-Game.playRound(0, 2);
-Game.playRound(1, 0);
+  const updateScreen = () => {
+    boardDiv.textContent = '';
 
-Game.playRound(0, 2);
+    gameboard.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        cellDiv.dataset.row = rowIndex;
+        cellDiv.dataset.col = colIndex;
+        cellDiv.textContent = cell.getValue();
+        cellDiv.addEventListener('click', cellClickHandler);
+        boardDiv.appendChild(cellDiv);
+      });
+    });
+  }
+  
+  updateScreen();
+}
 
-Game.playRound(1, 1);
-Game.playRound(1, 2);
-Game.playRound(2, 0);
-
-Game.playRound(2, 0);
-Game.playRound(0, 0);
-
-Game.playRound(2, 1);
-Game.playRound(2, 2);
+DisplayController();
