@@ -70,14 +70,6 @@ h3 {
   content: '\'s turn';
 }
 
-.player-one {
-  color: var(--color-blue);
-}
-
-.player-two {
-  color: var(--color-red);
-}
-
 .board {
   width: clamp(280px, 50vh, 40vw);
   height: clamp(280px, 50vh, 40vw);
@@ -165,4 +157,20 @@ h3 {
 /* Last row of cells */
 .cell:nth-child(n+7) {
   border-bottom: none;
+}
+
+.text-red {
+  color: var(--color-red);
+}
+
+.text-yellow {
+  color: var(--color-yellow);
+}
+
+.text-green {
+  color: var(--color-green);
+}
+
+.text-blue {
+  color: var(--color-blue);
 }
