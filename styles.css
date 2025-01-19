@@ -27,6 +27,10 @@ body {
   box-sizing: border-box;
 }
 
+p {
+  margin: 0;
+}
+
 h1, h2, h3 {
   margin: 0.5rem;
 }
@@ -47,13 +51,15 @@ h3 {
 
 .scores {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   font-weight: 500;
+  margin-block: 1rem;
 }
 
 .scores>div {
   display: flex;
   flex-flow: column wrap;
+  justify-content: center;
 }
 
 .active-player {
@@ -85,6 +91,7 @@ h3 {
   flex-flow: row wrap;
   gap: 1rem;
   justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .action-btn {
