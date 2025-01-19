@@ -43,5 +43,22 @@
     <button class="action-btn reset-round-btn">Reset round</button>
     <button class="action-btn reset-game-btn">New game</button>
   </div>
+
+  <dialog id="dialog">
+    <h1>Welcome!</h1>
+    <p>Please enter the names of the players to start the game.</p>
+    
+    <form action="" id="form">
+      <p>
+        <label for="player-one-name" class="text-blue">Player X name:</label>
+        <input type="text" id="player-one-name" name="player-one-name" required>
+      </p>
+      <p>
+        <label for="player-two-name" class="text-red">Player O name:</label>
+        <input type="text" id="player-two-name" name="player-two-name" required>
+      </p>
+      <button type="submit">Start game!</button>
+    </form>
+  </dialog>
 </body>
 </html>
