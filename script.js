@@ -90,7 +90,6 @@ function GameController() {
   }
 
   const playRound = (row, col) => {
-
     console.log(`Player ${activePlayer.name} played at row ${row}, col ${col}`);
     
     if (gameboard.putToken(row, col, activePlayer.token)) {
@@ -100,8 +99,17 @@ function GameController() {
       console.log('Invalid move. Try again.');
       return;
     }
-    
-  }
+  };
+
+  const resetRound = () => {
+    gameboard.getBoard().forEach(row => {
+      row.forEach(cell => {
+        cell.setValue('');
+      });
+    });
+
+    activePlayer = players.player1;
+  };
 
   // Initial round
   printNewRound();
@@ -109,6 +117,7 @@ function GameController() {
   return {
     getActivePlayer,
     playRound,
+    resetRound,
     getBoard: gameboard.getBoard
   }
 
@@ -118,17 +127,29 @@ function DisplayController() {
   const game = GameController();
   const gameboard = game.getBoard();
   
+  
   const boardDiv = document.querySelector('.board');
-
+  const activePlayerSpan = document.querySelector('.active-player');
+  
   const cellClickHandler = (e) => {
     const row = e.target.dataset.row;
     const col = e.target.dataset.col;
-
+    
     game.playRound(row, col);
     updateScreen();
   }
+  
+  const resetRoundClickHandler = () => {
+    game.resetRound();
+    updateScreen();
+  }
+
+  const resetRoundButton = document.querySelector('.reset-round-btn');
+  resetRoundButton.addEventListener('click', resetRoundClickHandler);
 
   const updateScreen = () => {
+    activePlayerSpan.textContent = game.getActivePlayer().name;
+
     boardDiv.textContent = '';
 
     gameboard.forEach((row, rowIndex) => {
