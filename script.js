@@ -67,26 +67,26 @@ function Cell() {
 function GameController() {
   const gameboard = Gameboard();
   const players = {
-    player1: {
+    playerOne: {
       name: 'Player 1',
       token: 'X',
       score: 0
     },
-    player2: {
+    playerTwo: {
       name: 'Player 2',
       token: 'O',
       score: 0
     }
   }
   
-  let activePlayer = players.player1;
+  let activePlayer = players.playerOne;
   let round = 1;
   let draws = 0;
 
   const getActivePlayer = () => activePlayer;
 
   const switchPlayer = () => {
-    activePlayer = activePlayer === players.player1 ? players.player2 : players.player1;
+    activePlayer = activePlayer === players.playerOne ? players.playerTwo : players.playerOne;
   }
 
   const playRound = (row, col) => {
@@ -185,8 +185,14 @@ function GameController() {
   const getRound = () => round;
   const getDraws = () => draws;
 
+  const setPlayersName = (playerOneName, playerTwoName) => {
+    players.playerOne.name = playerOneName;
+    players.playerTwo.name = playerTwoName;
+  }
+
   return {
     getPlayers,
+    setPlayersName,
     getRound,
     getDraws,
     getActivePlayer,
@@ -201,11 +207,12 @@ function DisplayController() {
   const game = GameController();
   const gameboard = game.getBoard();
   
-  
   const boardDiv = document.querySelector('.board');
   const activePlayerSpan = document.querySelector('.active-player');
   const playerOneScoreSpan = document.querySelector('.player-one-score');
+  const playerOneNameSpan = document.querySelector('.player-one-name');
   const playerTwoScoreSpan = document.querySelector('.player-two-score');
+  const playerTwoNameSpan = document.querySelector('.player-two-name');
   const roundSpan = document.querySelector('.round');
   const drawSpan = document.querySelector('.draws');
   
@@ -228,7 +235,7 @@ function DisplayController() {
   const updateScreen = () => {
 
     activePlayerSpan.textContent = game.getActivePlayer().name;
-    if (game.getActivePlayer().name === game.getPlayers().player1.name) {
+    if (game.getActivePlayer().name === game.getPlayers().playerOne.name) {
       activePlayerSpan.classList.add('text-blue');
       activePlayerSpan.classList.remove('text-red');
     } else {
@@ -236,8 +243,10 @@ function DisplayController() {
       activePlayerSpan.classList.remove('text-blue');
     }
 
-    playerOneScoreSpan.textContent = game.getPlayers().player1.score;
-    playerTwoScoreSpan.textContent = game.getPlayers().player2.score;
+    playerOneNameSpan.textContent = game.getPlayers().playerOne.name;
+    playerOneScoreSpan.textContent = game.getPlayers().playerOne.score;
+    playerTwoNameSpan.textContent = game.getPlayers().playerTwo.name;
+    playerTwoScoreSpan.textContent = game.getPlayers().playerTwo.score;
     roundSpan.textContent = game.getRound();
     drawSpan.textContent = game.getDraws();
 
@@ -257,8 +266,23 @@ function DisplayController() {
       });
     });
   }
-  
-  updateScreen();
+
+  const dialog = document.getElementById('dialog');
+  dialog.showModal();
+
+  const form = document.forms.UserNames;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    
+    const playerOneName = formData.get('player-one-name');
+    const playerTwoName = formData.get('player-two-name');
+
+    game.setPlayersName(playerOneName, playerTwoName);
+    
+    dialog.close();
+    updateScreen();
+  });
 }
 
 DisplayController();
