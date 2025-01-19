@@ -246,7 +246,9 @@ function DisplayController() {
     gameboard.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         const cellDiv = document.createElement('div');
+        const cellValue = cell.getValue();
         cellDiv.classList.add('cell');
+        cellDiv.classList.add(cellValue === 'X' ? 'text-blue' : 'text-red');
         cellDiv.dataset.row = rowIndex;
         cellDiv.dataset.col = colIndex;
         cellDiv.textContent = cell.getValue();
