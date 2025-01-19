@@ -268,6 +268,11 @@ function DisplayController() {
   }
 
   const dialog = document.getElementById('dialog');
+  dialog.addEventListener('cancel', (e) => {
+    // If the dialog is closed with the ESC key, then set the default names.
+    game.setPlayersName('Player X', 'Player O');
+    updateScreen();
+  });
   dialog.showModal();
 
   const form = document.forms.UserNames;
@@ -283,6 +288,7 @@ function DisplayController() {
     dialog.close();
     updateScreen();
   });
+
 }
 
 DisplayController();
