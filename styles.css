@@ -174,3 +174,79 @@ h3 {
 .text-blue {
   color: var(--color-blue);
 }
+
+#dialog {
+  width: clamp(200px, 30vw, 500px);
+  height: clamp(min-content, 15vh, 500px);
+  background-color: var(--background-color);
+  color: var(--on-background-color);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0px 10px 15px 5px rgba(0,0,0,0.1);
+  font-weight: 600;
+}
+
+#dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+#dialog h1 {
+  text-align: center;
+}
+
+#dialog p:first-child {
+  margin-block: 1rem;
+}
+
+#form {
+  display: grid;
+  grid-template-rows: 2fr 2fr 1fr;
+  gap: 8px;
+}
+
+#form p {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 4px;
+}
+
+#form input {
+  background-color: var(--on-background-color);
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  border: 2px solid transparent;
+  padding: 8px;
+  border-radius: 8px;
+  transition: ease 200ms;
+}
+
+#form input:user-invalid {
+  border: 2px dashed var(--color-yellow);
+}
+
+#player-one-name:focus {
+  border: 2px solid var(--color-blue);
+}
+
+#player-two-name:focus {
+  border: 2px solid var(--color-red);
+}
+
+#form button {
+  background-color: var(--color-green);
+  color: var(--background-color);
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--color-green);
+  border-radius: 8px;
+  transition: ease 120ms;
+  cursor: pointer;
+  place-self: center;
+  padding: 8px 16px;
+}
+
+#form button:hover {
+  filter: brightness(1.2);
+}
