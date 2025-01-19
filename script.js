@@ -93,6 +93,7 @@ function GameController() {
     console.log(`Player ${activePlayer.name} played at row ${row}, col ${col}`);
     
     if (gameboard.putToken(row, col, activePlayer.token)) {
+      if (checkIfWins(row, col)) alert('Player ' + activePlayer.name + ' wins!');
       switchPlayer();
       printNewRound();
     } else {
@@ -100,6 +101,50 @@ function GameController() {
       return;
     }
   };
+
+  function checkIfWins(row, col) {
+    const board = gameboard.getBoard();
+
+    function checkRow() {
+      for (let i = 0; i < 3; i++) {
+        if (board[row][i].getValue() !== activePlayer.token) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function checkColumn(){
+      for (let i = 0; i < 3; i++) {
+        if (board[i][col].getValue() !== activePlayer.token) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Check diagonal from Left to Right
+    function checkDiagonalLTR() {
+      for (let i = 0; i < 3; i++) {
+        if (board[i][i].getValue() !== activePlayer.token) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Check diagonal from Right to Left
+    function checkDiagonalRTL() {
+      for (let i = 0; i < 3; i++) {
+        if (board[i][2 - i].getValue() !== activePlayer.token) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return checkRow() || checkColumn() || checkDiagonalLTR() || checkDiagonalRTL();
+  }
 
   const resetRound = () => {
     gameboard.getBoard().forEach(row => {
