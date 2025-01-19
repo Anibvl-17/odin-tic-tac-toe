@@ -208,13 +208,16 @@ function DisplayController() {
   const gameboard = game.getBoard();
   
   const boardDiv = document.querySelector('.board');
+  const roundSpan = document.querySelector('.round');
+  const drawSpan = document.querySelector('.draws');
+  
   const activePlayerSpan = document.querySelector('.active-player');
+  
   const playerOneScoreSpan = document.querySelector('.player-one-score');
   const playerOneNameSpan = document.querySelector('.player-one-name');
   const playerTwoScoreSpan = document.querySelector('.player-two-score');
   const playerTwoNameSpan = document.querySelector('.player-two-name');
-  const roundSpan = document.querySelector('.round');
-  const drawSpan = document.querySelector('.draws');
+
   
   const cellClickHandler = (e) => {
     const row = e.target.dataset.row;
@@ -229,6 +232,12 @@ function DisplayController() {
     updateScreen();
   }
 
+  const newGameClickHandler = () => {
+    window.location.reload();
+  }
+  
+  const newGameButton = document.querySelector('.new-game-btn');
+  newGameButton.addEventListener('click', newGameClickHandler);
   const resetRoundButton = document.querySelector('.reset-round-btn');
   resetRoundButton.addEventListener('click', resetRoundClickHandler);
 
