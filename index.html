@@ -51,11 +51,21 @@
     <form action="" id="UserNames">
       <p>
         <label for="player-one-name" class="text-blue">Player X name:</label>
-        <input type="text" id="player-one-name" name="player-one-name" required>
+        <input 
+          type="text" 
+          id="player-one-name" 
+          name="player-one-name" 
+          minlength="1" maxlength="40" 
+          required>
       </p>
       <p>
         <label for="player-two-name" class="text-red">Player O name:</label>
-        <input type="text" id="player-two-name" name="player-two-name" required>
+        <input 
+          type="text" 
+          id="player-two-name" 
+          name="player-two-name" 
+          minlength="1" maxlength="40"
+          required>
       </p>
       <button type="submit">Start game!</button>
     </form>
