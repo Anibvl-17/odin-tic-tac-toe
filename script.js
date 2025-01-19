@@ -69,15 +69,19 @@ function GameController() {
   const players = {
     player1: {
       name: 'Player 1',
-      token: 'X'
+      token: 'X',
+      score: 0
     },
     player2: {
       name: 'Player 2',
-      token: 'O'
+      token: 'O',
+      score: 0
     }
   }
-
+  
   let activePlayer = players.player1;
+  let round = 1;
+  let draws = 0;
 
   const getActivePlayer = () => activePlayer;
 
@@ -85,17 +89,25 @@ function GameController() {
     activePlayer = activePlayer === players.player1 ? players.player2 : players.player1;
   }
 
-  const printNewRound = () => {
-    console.log(`Player ${activePlayer.name} turn.`);
-  }
-
   const playRound = (row, col) => {
     console.log(`Player ${activePlayer.name} played at row ${row}, col ${col}`);
     
     if (gameboard.putToken(row, col, activePlayer.token)) {
-      if (checkIfWins(row, col)) alert('Player ' + activePlayer.name + ' wins!');
-      switchPlayer();
-      printNewRound();
+      
+      if (checkIfWins(row, col)) {
+        console.log('Player ' + activePlayer.name + ' wins!');
+        activePlayer.score++;
+        round++;
+        resetRound();
+      } else if (checkDraw()) {
+        console.log('Draw!');
+        round++;
+        draws++;
+        resetRound();
+      } else {
+        switchPlayer();
+      }
+      
     } else {
       console.log('Invalid move. Try again.');
       return;
@@ -146,6 +158,18 @@ function GameController() {
     return checkRow() || checkColumn() || checkDiagonalLTR() || checkDiagonalRTL();
   }
 
+  function checkDraw() {
+    const board = gameboard.getBoard();
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[i][j].getValue() === '') {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   const resetRound = () => {
     gameboard.getBoard().forEach(row => {
       row.forEach(cell => {
@@ -153,14 +177,18 @@ function GameController() {
       });
     });
 
-    activePlayer = players.player1;
+    // For a fair play, each round starts with a different player.
+    switchPlayer();
   };
 
-  // Initial round
-  printNewRound();
+  const getPlayers = () => players;
+  const getRound = () => round;
+  const getDraws = () => draws;
 
   return {
-    players,
+    getPlayers,
+    getRound,
+    getDraws,
     getActivePlayer,
     playRound,
     resetRound,
@@ -176,6 +204,10 @@ function DisplayController() {
   
   const boardDiv = document.querySelector('.board');
   const activePlayerSpan = document.querySelector('.active-player');
+  const playerOneScoreSpan = document.querySelector('.player-one-score');
+  const playerTwoScoreSpan = document.querySelector('.player-two-score');
+  const roundSpan = document.querySelector('.round');
+  const drawSpan = document.querySelector('.draws');
   
   const cellClickHandler = (e) => {
     const row = e.target.dataset.row;
@@ -194,14 +226,20 @@ function DisplayController() {
   resetRoundButton.addEventListener('click', resetRoundClickHandler);
 
   const updateScreen = () => {
+
     activePlayerSpan.textContent = game.getActivePlayer().name;
-    if (game.getActivePlayer().name === game.players.player1.name) {
-      activePlayerSpan.classList.add('player-one');
-      activePlayerSpan.classList.remove('player-two');
+    if (game.getActivePlayer().name === game.getPlayers().player1.name) {
+      activePlayerSpan.classList.add('text-blue');
+      activePlayerSpan.classList.remove('text-red');
     } else {
-      activePlayerSpan.classList.add('player-two');
-      activePlayerSpan.classList.remove('player-one');
+      activePlayerSpan.classList.add('text-red');
+      activePlayerSpan.classList.remove('text-blue');
     }
+
+    playerOneScoreSpan.textContent = game.getPlayers().player1.score;
+    playerTwoScoreSpan.textContent = game.getPlayers().player2.score;
+    roundSpan.textContent = game.getRound();
+    drawSpan.textContent = game.getDraws();
 
     boardDiv.textContent = '';
 
