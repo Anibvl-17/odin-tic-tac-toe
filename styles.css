@@ -112,11 +112,11 @@ h3 {
   color: var(--background-color);
 }
 
-.reset-game-btn {
+.new-game-btn {
   border: 2px solid var(--color-green);
 }
 
-.reset-game-btn:hover {
+.new-game-btn:hover {
   background-color: var(--color-green);
   color: var(--background-color);
 }
