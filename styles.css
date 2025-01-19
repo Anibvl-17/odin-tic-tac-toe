@@ -1,7 +1,7 @@
 :root {
   --background-color: #272727;
   --on-background-color: #747474;
-  --color-red: #ff652f;
+  --color-red: #d45324;
   --color-yellow: #ffe400;
   --color-green: #14a76c;
   --color-blue: #2450df;
@@ -54,6 +54,22 @@ h3 {
 .scores>div {
   display: flex;
   flex-flow: column wrap;
+}
+
+.active-player {
+  font-weight: 600;
+}
+
+.active-player::after {
+  content: '\'s turn';
+}
+
+.player-one {
+  color: var(--color-blue);
+}
+
+.player-two {
+  color: var(--color-red);
 }
 
 .board {
