@@ -115,6 +115,7 @@ function GameController() {
   printNewRound();
 
   return {
+    players,
     getActivePlayer,
     playRound,
     resetRound,
@@ -149,6 +150,13 @@ function DisplayController() {
 
   const updateScreen = () => {
     activePlayerSpan.textContent = game.getActivePlayer().name;
+    if (game.getActivePlayer().name === game.players.player1.name) {
+      activePlayerSpan.classList.add('player-one');
+      activePlayerSpan.classList.remove('player-two');
+    } else {
+      activePlayerSpan.classList.add('player-two');
+      activePlayerSpan.classList.remove('player-one');
+    }
 
     boardDiv.textContent = '';
 
